@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Цветочная мастерская "Лепесток"</title>
+
+  <!-- Подключаем сброс стилей -->
+  <link rel="stylesheet" href="reset.css">
+  <!-- Подключаем основные стили -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Шапка -->
+  <header class="site-header">
+    <div class="container header-content">
+      <div class="logo">Лепесток</div>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="#">Главная</a></li>
+          <li><a href="#">Букеты</a></li>
+          <li><a href="#">Уход за цветами</a></li>
+          <li><a href="#">Контакты</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Основной контент -->
+  <main class="container">
+    <h1 class="section-title">Создаем красоту для ваших особенных моментов</h1>
+
+    <div class="content">
+      <div class="main-content">
+        <article class="flower-article">
+          <h2>Весенние тюльпаны: символ нежности</h2>
+          <span class="article-date">15 марта 2024 | Автор: Нажмитдинова Шахзода</span>
+          <p>Весна — время тюльпанов! Эти нежные цветы прекрасно подходят для создания весеннего настроения и подарков близким.</p>
+          <p><strong>Букет розовых тюльпанов в вазе</strong></p>
+          <p>Букет тюльпанов "Весенняя нежность"</p>
+          <p><em>Совет по уходу:</em> тюльпаны продолжают расти в воде, поэтому регулярно подрезайте стебли и меняйте воду.</p>
+        </article>
+
+        <article class="flower-article">
+          <h2>Пионы: короли лета</h2>
+          <span class="article-date">1 июня 2024 | Автор: Мария Розанова</span>
+          <p>Пионы — пышные и ароматные цветы, которые символизируют процветание и счастливую жизнь.</p>
+        </article>
+
+        <article class="flower-article">
+          <h2>Как продлить жизнь срезанным цветам</h2>
+          <span class="article-date">10 февраля 2024 | Автор: Сергей Садовников</span>
+          <p>7 простых советов, которые помогут вашим цветам стоять дольше: регулярная смена воды, подрезка стеблей, удаление лишних листьев и другие секреты флористов.</p>
+        </article>
+      </div>
+
+      <!-- Боковая панель -->
+      <aside class="sidebar">
+        <h3>Уход за цветами</h3>
+        <p>Полезные советы по уходу за срезанными цветами.</p>
+
+        <div class="special-offer">
+          <h4>Сезонные предложения</h4>
+          <p>Пионы — скидка 20%</p>
+          <p>Свадебные букеты</p>
+          <p>Горшечные растения</p>
+        </div>
+
+        <h4>Узнавайте о новых поступлениях:</h4>
+        <form style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem;">
+          <input type="email" placeholder="Ваш e-mail" required style="padding: 0.75rem; border-radius: var(--radius-md); border: 1px solid #ddd;" />
+          <button type="submit" style="background: var(--gradient-primary); color: white; padding: 0.75rem; border-radius: var(--radius-md); font-weight: bold; cursor: pointer;">Подписаться</button>
+        </form>
+
+        <h4 style="margin-top: 2rem;">Сезонность цветов</h4>
+        <table class="season-table">
+          <thead>
+            <tr>
+              <th>Цветок</th>
+              <th>Сезон</th>
+              <th>Особенности</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Тюльпаны</td><td>Март–Май</td><td>Яркие, недорогие</td></tr>
+            <tr><td>Пионы</td><td>Май–Июль</td><td>Ароматные, пышные</td></tr>
+            <tr><td>Хризантемы</td><td>Круглый год</td><td>Долго стоят</td></tr>
+          </tbody>
+        </table>
+      </aside>
+    </div>
+  </main>
+
+  <!-- Футер -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>Цветочная мастерская "Лепесток", 2024</p>
+      <p>Сургут, ул. Ленина, 3. | +7(922)564-89-76</p>
+    </div>
+  </footer>
+</body>
+</html>
