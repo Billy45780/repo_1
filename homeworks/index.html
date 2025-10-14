@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Форма обратной связи</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      color: #333;
+    }
+
+    section.contacts {
+      max-width: 1000px;
+      margin: 50px auto;
+      padding: 40px 30px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    }
+
+    .heading {
+      text-align: center;
+      font-size: 28px;
+      margin-bottom: 40px;
+      color: #007BFF;
+    }
+
+    .row {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* Картинка */
+    .row .img {
+      flex: 1;
+      text-align: center;
+    }
+
+    .row .img img {
+      max-width: 300px;   /* ограничение размера */
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    /* Форма */
+    form {
+      flex: 1;
+      max-width: 400px;  /* фиксируем разумную ширину */
+      width: 100%;
+    }
+
+    form span {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #444;
+    }
+
+    form input,
+    form textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 18px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    form button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      background: #007BFF;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    form button:hover {
+      background: #0056b3;
+    }
+
+    /* адаптив */
+    @media (max-width: 768px) {
+      .row {
+        flex-direction: column;
+      }
+      .row .img img {
+        max-width: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- contacts section start -->
+  <section class="contacts">
+    <h2 class="heading">Связаться с нами</h2>
+    <div class="row">
+      <div class="img">
+        <img src="https://avatars.mds.yandex.net/i?id=f44f8f03755da94b7b82fa1dabca8c49563f10c8-12569664-images-thumbs&n=13" alt="Contact">
+      </div>
+
+      <form action="https://api.web3forms.com/submit" method="POST">
+
+        <input type="hidden" name="access_key" value="9cdd3885-1ced-473f-b3bb-300fe46c1396">
+        <span>Ваше имя</span>
+        <input type="text" name="name" id="name" placeholder="Введите имя" required>
+
+        <span>Email</span>
+        <input type="email" name="email" id="email" placeholder="example@mail.com" required>
+
+        <span>Сообщение</span>
+        <textarea name="message" id="message" placeholder="Введите сообщение..." required></textarea>
+
+        <button type="submit">Отправить</button>
+      </form>
+    </div>
+  </section>
+  <!-- contacts section end -->
+</body>
+</html>

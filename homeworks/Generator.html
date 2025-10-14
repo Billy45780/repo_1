@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Креативный Генератор Паролей</title>
+<style>
+  :root{
+    --bg:#0f1720;
+    --card:#0f1726;
+    --accent:#ff6a88;
+    --accent2:#7c4dff;
+    --muted:#9aa4b2;
+    --glass: rgba(255,255,255,0.03);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:
+      radial-gradient(800px 400px at 10% 10%, rgba(124,77,255,0.08), transparent 5%),
+      radial-gradient(600px 300px at 90% 90%, rgba(255,106,136,0.06), transparent 5%),
+      var(--bg);
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    color:#e6eef6;
+    padding:24px;
+  }
+
+  .card{
+    width:100%;
+    max-width:880px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:14px;
+    padding:20px;
+    box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+    border: 1px solid rgba(255,255,255,0.04);
+    backdrop-filter: blur(6px);
+  }
+
+  .row{
+    display:flex;
+    gap:16px;
+    align-items:center;
+  }
+
+  header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:14px;
+  }
+
+  header h1{
+    font-size:1.15rem;
+    margin:0;
+    letter-spacing:0.2px;
+  }
+  header p{ margin:0; color:var(--muted); font-size:0.85rem }
+
+  .output{
+    display:flex;
+    gap:12px;
+    align-items:center;
+    margin-bottom:16px;
+  }
+
+  .pw-box{
+    flex:1;
+    background:var(--glass);
+    padding:14px;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    border:1px solid rgba(255,255,255,0.02);
+  }
+
+  .pw{
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+    font-size:1rem;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    color:#f7fbff;
+  }
+
+  .controls{
+    display:flex;
+    gap:10px;
+  }
+
+  button{
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    border:none;
+    color:white;
+    padding:10px 14px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:600;
+    box-shadow: 0 6px 18px rgba(124,77,255,0.14);
+  }
+  button.secondary{
+    background:transparent;
+    border:1px solid rgba(255,255,255,0.04);
+    color:var(--muted);
+    font-weight:600;
+    padding:8px 10px;
+  }
+
+  .options{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap:10px;
+    margin-bottom:14px;
+  }
+  label.opt{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:0.95rem;
+    color:var(--muted);
+    background:rgba(255,255,255,0.015);
+    padding:8px 10px;
+    border-radius:8px;
+  }
+  input[type="checkbox"]{ width:16px; height:16px; accent-color:var(--accent); }
+
+  .row-settings{
+    display:flex;
+    gap:18px;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    margin-bottom:16px;
+  }
+
+  .length{
+    display:flex; flex-direction:column; gap:6px; min-width:220px;
+  }
+  .length input[type="range"]{ width:220px; accent-color:var(--accent2); }
+
+  .small{
+    font-size:0.85rem; color:var(--muted);
+  }
+
+  .strength{
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .meter{
+    width:180px;
+    height:10px;
+    background:rgba(255,255,255,0.04);
+    border-radius:999px;
+    overflow:hidden;
+  }
+  .meter > i{
+    display:block;
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#ff6a00,#ee0979);
+    border-radius:999px;
+    transition:width 300ms ease;
+  }
+
+  .extra{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    margin-top:6px;
+  }
+  .mode{
+    display:flex;
+    gap:8px;
+    align-items:center;
+  }
+
+  .note{ color:var(--muted); font-size:0.86rem; margin-top:14px; }
+
+  @media (max-width:720px){
+    .options{ grid-template-columns: repeat(2,1fr); }
+    .row{ flex-direction:column; align-items:stretch; }
+    .length input[type="range"]{ width:100%; }
+    .card{ padding:16px; }
+  }
+</style>
+</head>
+<body>
+  <div class="card" role="application" aria-label="Генератор паролей">
+    <header>
+      <div>
+        <h1>Креативный Генератор Паролей</h1>
+        <p class="small">Простой, но гибкий — выбери режим и длину, нажми «Сгенерировать»</p>
+      </div>
+      <div class="controls">
+        <button id="generate">Сгенерировать</button>
+        <button class="secondary" id="copyBtn" title="Копировать">Копировать</button>
+      </div>
+    </header>
+
+    <div class="output">
+      <div class="pw-box" aria-live="polite">
+        <div class="pw" id="password">— Нажми «Сгенерировать» —</div>
+        <div class="small" id="lengthLabel">0</div>
+      </div>
+    </div>
+
+    <div class="row-settings">
+      <div class="length">
+        <label class="small">Длина: <strong id="lenVal">16</strong></label>
+        <input type="range" id="length" min="6" max="40" value="16">
+      </div>
+
+      <div class="strength">
+        <div class="small">Сила:</div>
+        <div class="meter" aria-hidden="true"><i id="meterBar"></i></div>
+        <div id="strengthText" class="small">—</div>
+      </div>
+    </div>
+
+    <div class="options" role="group" aria-label="Настройки">
+      <label class="opt"><input type="checkbox" id="lower" checked> строчные буквы</label>
+      <label class="opt"><input type="checkbox" id="upper" checked> ЗАГЛАВНЫЕ БУКВЫ</label>
+      <label class="opt"><input type="checkbox" id="numbers" checked> Цифры (0–9)</label>
+      <label class="opt"><input type="checkbox" id="symbols"> Символы (!@#…)</label>
+
+      <label class="opt"><input type="checkbox" id="ambigrams"> Стиль l33t (знаки вместо букв)</label>
+      <label class="opt"><input type="checkbox" id="words"> Слова (легко запомнить)</label>
+      <label class="opt"><input type="checkbox" id="dashes"> Разделитель (-)</label>
+      <label class="opt"><input type="checkbox" id="uppercaseFirst"> Заглавная первая буква</label>
+    </div>
+
+    <div class="extra">
+      <div class="mode small">Режим: <strong id="modeLabel">случайный</strong></div>
+      <div class="note">Совет: для надёжности выбери длину ≥12 и добавь цифры и символы.</div>
+    </div>
+  </div>
+
+<script>
+/* 
+  Основные функции:
+  - generatePassword(options) — создаёт пароль
+  - Вариант "слова" делает пароль из случайных слов
+  - Режим "l33t" заменяет буквы на похожие символы
+*/
+
+const el = id => document.getElementById(id);
+
+const lowerChars = 'abcdefghijklmnopqrstuvwxyz';
+const upperChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const numberChars = '0123456789';
+const symbolChars = '!@#$%^&*()_+[]{};:,.<>?';
+
+const wordList = [
+  'орбита','пиксель','фиолет','лава','неон','эхо','комета','атлас','нова','цветок',
+  'река','камень','жар','свет','линза','пульс','зеркало','тишина','искра','разлом',
+  'мудрость','волна','скала','буря','лед','зен','монахи','сияние','утро','туман'
+];
+
+// генерация случайного числа
+function randInt(max){ return Math.floor(Math.random()*max); }
+function randFrom(str){ return str.charAt(randInt(str.length)); }
+function shuffle(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// стиль l33t
+function l33tify(s){
+  const map = { а:'@', е:'3', и:'1', о:'0', с:'$', т:'7', a:'@', e:'3', i:'1', o:'0', s:'$', t:'7' };
+  return s.split('').map(ch => map[ch] || ch).join('');
+}
+
+// оценка силы пароля
+function calcStrength(pw){
+  let score = 0;
+  if(pw.length >= 8) score += 20;
+  if(pw.length >= 12) score += 20;
+  if(/[a-zа-я]/.test(pw) && /[A-ZА-Я]/.test(pw)) score += 20;
+  if(/[0-9]/.test(pw)) score += 20;
+  if(/[^A-Za-zА-Яа-я0-9]/.test(pw)) score += 20;
+  return Math.min(100, score);
+}
+
+// генерация пароля
+function generatePassword(options){
+  const { length, useLower, useUpper, useNum, useSym, useWords, ambigram, dashSeparator, uppercaseFirst } = options;
+
+  if(useWords){
+    const wordCount = Math.max(2, Math.min(5, Math.floor(length / 4)));
+    const chosen = [];
+    for(let i=0;i<wordCount;i++){
+      chosen.push(wordList[randInt(wordList.length)]);
+    }
+    let sep = dashSeparator ? '-' : '';
+    let pass = chosen.join(sep);
+    if(pass.length > length) pass = pass.slice(0,length);
+    if(ambigram) pass = l33tify(pass);
+    if(uppercaseFirst) pass = pass.charAt(0).toUpperCase() + pass.slice(1);
+    while(pass.length < length){
+      pass += randFrom(numberChars + lowerChars);
+    }
+    return pass;
+  }
+
+  let pool = '';
+  if(useLower) pool += lowerChars;
+  if(useUpper) pool += upperChars;
+  if(useNum) pool += numberChars;
+  if(useSym) pool += symbolChars;
+  if(!pool) pool = lowerChars;
+
+  const required = [];
+  if(useLower) required.push(randFrom(lowerChars));
+  if(useUpper) required.push(randFrom(upperChars));
+  if(useNum) required.push(randFrom(numberChars));
+  if(useSym) required.push(randFrom(symbolChars));
+
+  let pwdArr = [...required];
+  for(let i=pwdArr.length;i<length;i++){
+    pwdArr.push(randFrom(pool));
+  }
+
+  shuffle(pwdArr);
+  let pass = pwdArr.join('');
+
+  if(ambigram) pass = l33tify(pass);
+  if(uppercaseFirst) pass = pass.charAt(0).toUpperCase() + pass.slice(1);
+  return pass;
+}
+
+const lengthInput = el('length');
+const lenVal = el('lenVal');
+const generateBtn = el('generate');
+const pwEl = el('password');
+const meterBar = el('meterBar');
+const strengthText = el('strengthText');
+const copyBtn = el('copyBtn');
+const modeLabel = el('modeLabel');
+
+function readOptions(){
+  return {
+    length: Number(lengthInput.value),
+    useLower: el('lower').checked,
+    useUpper: el('upper').checked,
+    useNum: el('numbers').checked,
+    useSym: el('symbols').checked,
+    ambigram: el('ambigrams').checked,
+    useWords: el('words').checked,
+    dashSeparator: el('dashes').checked,
+    uppercaseFirst: el('uppercaseFirst').checked
+  };
+}
+
+function updateStrengthVisual(pw){
+  const score = calcStrength(pw);
+  meterBar.style.width = score + '%';
+  if(score < 40){
+    meterBar.style.background = 'linear-gradient(90deg,#ff4d6d,#ff6a00)';
+    strengthText.textContent = 'Слабый';
+  } else if(score < 70){
+    meterBar.style.background = 'linear-gradient(90deg,#ffb86b,#ff6a00)';
+    strengthText.textContent = 'Средний';
+  } else {
+    meterBar.style.background = 'linear-gradient(90deg,#6effb0,#2dd4bf)';
+    strengthText.textContent = 'Сильный';
+  }
+}
+
+function updateModeLabel(){
+  const options = readOptions();
+  if(options.useWords) modeLabel.textContent = 'слова';
+  else if(!options.useLower && options.useUpper && options.useNum && !options.useSym) modeLabel.textContent = 'заглавные+цифры';
+  else modeLabel.textContent = 'случайный';
+}
+
+lengthInput.addEventListener('input', () => {
+  lenVal.textContent = lengthInput.value;
+  el('lengthLabel').textContent = lengthInput.value;
+});
+lenVal.textContent = lengthInput.value;
+el('lengthLabel').textContent = lengthInput.value;
+
+document.querySelectorAll('input[type="checkbox"]').forEach(ch => {
+  ch.addEventListener('change', () => {
+    updateModeLabel();
+  });
+});
+
+generateBtn.addEventListener('click', () => {
+  const options = readOptions();
+  const pw = generatePassword(options);
+  pwEl.textContent = pw;
+  el('lengthLabel').textContent = pw.length;
+  updateStrengthVisual(pw);
+  updateModeLabel();
+});
+
+copyBtn.addEventListener('click', async () => {
+  const text = pwEl.textContent;
+  if(!text || text.startsWith('—')) return;
+  try{
+    await navigator.clipboard.writeText(text);
+    copyBtn.textContent = 'Скопировано';
+    setTimeout(()=> copyBtn.textContent = 'Копировать',1200);
+  }catch(e){
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    try{ document.execCommand('copy'); copyBtn.textContent='Скопировано'; }
+    catch(e){ copyBtn.textContent='Ошибка'; }
+    ta.remove();
+    setTimeout(()=> copyBtn.textContent = 'Копировать',1200);
+  }
+});
+
+generateBtn.click();
+</script>
+</body>
+</html>

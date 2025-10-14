@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Интерактивная галерея изображений</title>
+  <style>
+    /* Базовые стили */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+      color: #333;
+      line-height: 1.6;
+      padding: 20px;
+      min-height: 100vh;
+    }
+    
+    /* Заголовок */
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+    
+    h1 {
+      color: #2c3e50;
+      margin-bottom: 10px;
+      font-size: 2.5rem;
+      background: linear-gradient(90deg, #ff6a00, #ee0979);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    /* Галерея */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+    
+    /* Карточка изображения */
+    .image-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+    }
+    
+    .image-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+    }
+    
+    /* Изображение */
+    .image-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    
+    .image-card:hover img {
+      transform: scale(1.1);
+    }
+    
+    /* Описание */
+    .image-info {
+      padding: 20px;
+      position: relative;
+    }
+    
+    .image-info h3 {
+      margin-bottom: 10px;
+      color: #2c3e50;
+      font-size: 1.3rem;
+    }
+    
+    .image-info p {
+      color: #666;
+      font-size: 15px;
+      margin-bottom: 15px;
+    }
+    
+    .read-more {
+      display: inline-block;
+      background: linear-gradient(90deg, #ff6a00, #ee0979);
+      color: white;
+      padding: 8px 15px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+    
+    .read-more:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 10px rgba(255, 106, 0, 0.4);
+    }
+    
+    /* Полноэкранный просмотр */
+    .fullscreen-view {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+      box-sizing: border-box;
+    }
+    
+    .fullscreen-content {
+      background: white;
+      border-radius: 15px;
+      max-width: 900px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+      animation: zoomIn 0.4s ease;
+    }
+    
+    @keyframes zoomIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    
+    .fullscreen-img {
+      width: 100%;
+      max-height: 500px;
+      object-fit: cover;
+      display: block;
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+    }
+    
+    .fullscreen-info {
+      padding: 30px;
+    }
+    
+    .fullscreen-info h2 {
+      color: #2c3e50;
+      margin-bottom: 15px;
+      font-size: 2rem;
+    }
+    
+    .fullscreen-info p {
+      color: #555;
+      font-size: 16px;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+    
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      background: #ff6a00;
+      color: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.3s ease;
+      z-index: 1001;
+    }
+    
+    .close-btn:hover {
+      background: #ee0979;
+      transform: rotate(90deg);
+    }
+    
+    /* Адаптивность */
+    @media (max-width: 1100px) {
+      .gallery {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 700px) {
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .fullscreen-content {
+        width: 95%;
+        padding: 0;
+      }
+      
+      .fullscreen-info {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Интерактивная галерея изображений</h1>
+    <p>Нажмите на любое изображение для просмотра в полноэкранном режиме</p>
+  </header>
+  
+  <div class="gallery">
+    <!-- Изображение 1 -->
+    <div class="image-card" onclick="openFullscreen(0)">
+      <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Горный пейзаж">
+      <div class="image-info">
+        <h3>Горный вид</h3>
+        <p>Величественные горы с утренним туманом создают спокойный пейзаж.</p>
+        <span class="read-more">Подробнее</span>
+      </div>
+    </div>
+    
+    <!-- Изображение 2 -->
+    <div class="image-card" onclick="openFullscreen(1)">
+      <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Лес">
+      <div class="image-info">
+        <h3>Зачарованный лес</h3>
+        <p>Солнечный свет, проникающий сквозь густой лесной полог.</p>
+        <span class="read-more">Подробнее</span>
+      </div>
+    </div>
+    
+    <!-- Изображение 3 -->
+    <div class="image-card" onclick="openFullscreen(2)">
+      <img src="https://images.unsplash.com/photo-1439066615861-d1af74d74000?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Озеро">
+      <div class="image-info">
+        <h3>Спокойное озеро</h3>
+        <p>Кристально чистое озеро, идеально отражающее окружающие горы.</p>
+        <span class="read-more">Подробнее</span>
+      </div>
+    </div>
+    
+    <!-- Изображение 4 -->
+    <div class="image-card" onclick="openFullscreen(3)">
+      <img src="https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Пляж">
+      <div class="image-info">
+        <h3>Тропический пляж</h3>
+        <p>Белый песчаный пляж с бирюзовой водой и пальмами.</p>
+        <span class="read-more">Подробнее</span>
+      </div>
+    </div>
+    
+    <!-- Изображение 5 -->
+    <div class="image-card" onclick="openFullscreen(4)">
+      <img src="https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Водопад">
+      <div class="image-info">
+        <h3>Лесная тропа</h3>
+        <p>Привлекательная тропа, извивающаяся через пышный зеленый лес.</p>
+        <span class="read-more">Подробнее</span>
+      </div>
+    </div>
+    
+    <!-- Изображение 6 -->
+    <div class="image-card" onclick="openFullscreen(5)">
+      <img src="https://avatars.mds.yandex.net/i?id=b5d0ac8dfa8a22aeeda6375338d85c9101d20c94-9855122-images-thumbs&ref=rim&n=33&w=400&h=250" alt="Закат">
+      <div class="image-info">
+        <h3>Золотой закат</h3>
+        <p>Захватывающий закат, окрашивающий небо в теплые тона.</p>
+        <span class="read-more">Подробнее</span>
+      </div>
+    </div>
+    
+    <!-- Изображение 7 -->
+    <div class="image-card" onclick="openFullscreen(6)">
+      <img src="https://cdn.fishki.net/upload/post/2018/11/15/2768650/tn/b2a033fe583b178409d30f238bcd430d.jpg" alt="Пустыня">
+      <div class="image-info">
+        <h3>Песчаные дюны</h3>
+        <p>Волнистые песчаные дюны создают красивые узоры в пустыне.</p>
+        <span class="read-more">Подробнее</span>
+      </div>
+    </div>
+    
+    <!-- Изображение 8 -->
+    <div class="image-card" onclick="openFullscreen(7)">
+      <img src="https://travelbird-images.imgix.net/ca/d1/cad127b0270d11cab02453f18f354042?auto=compress%2Cformat&amp;crop=faces%2Cedges%2Ccenter&amp;fit=crop&amp;h=720&amp;upscale=true&amp;w=1080" alt="Северное сияние">
+      <div class="image-info">
+        <h3>Северное сияние</h3>
+        <p>Танцующее северное сияние освещает ночное небо яркими цветами.</p>
+        <span class="read-more">Подробнее</span>
+      </div>
+    </div>
+    
+    <!-- Изображение 9 -->
+    <div class="image-card" onclick="openFullscreen(8)">
+      <img src="https://avatars.mds.yandex.net/i?id=cc9e7c973c5d53b65429983eeaa77b3b_l-4577377-images-thumbs&n=13" alt="Водопад">
+      <div class="image-info">
+        <h3>Водопад </h3>
+        <p>Мощный водопад обрушивает свои потоки с высоты, создавая облако прохладного тумана и ощущение величия природы.</p>
+        <span class="read-more">Подробнее</span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Полноэкранный просмотр -->
+  <div class="fullscreen-view" id="fullscreenView">
+    <div class="fullscreen-content">
+      <button class="close-btn" onclick="closeFullscreen()">×</button>
+      <img id="fullscreenImg" class="fullscreen-img" src="" alt="">
+      <div class="fullscreen-info">
+        <h2 id="fullscreenTitle"></h2>
+        <p id="fullscreenDescription"></p>
+        <p id="fullscreenDetails"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Данные для полноэкранного просмотра
+    const imageData = [
+      {
+        title: "Горный вид",
+        description: "Величественные горы с утренним туманом создают спокойный пейзаж.",
+        details: "Этот захватывающий вид был сфотографирован на рассвете в Альпах. Утренний туман медленно поднимается, открывая величественные вершины гор, покрытые вечными снегами. Идеальное место для медитации и наслаждения природой.",
+        img: "https://images.unsplash.com/photo-1501854140801-50d01698950b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"
+      },
+      {
+        title: "Зачарованный лес",
+        description: "Солнечный свет, проникающий сквозь густой лесной полог.",
+        details: "Прогуливаясь по этому древнему лесу, можно почувствовать магию природы. Лучи солнца, пробивающиеся сквозь густую листву, создают волшебную атмосферу. Воздух наполнен ароматом хвои и влажной земли.",
+        img: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"
+      },
+      {
+        title: "Спокойное озеро",
+        description: "Кристально чистое озеро, идеально отражающее окружающие горы.",
+        details: "Воды этого горного озера настолько прозрачны, что можно разглядеть дно на глубине нескольких метров. Идеальное отражение окружающих пейзажей создает ощущение гармонии и умиротворения. Место популярно среди фотографов и любителей природы.",
+        img: "https://images.unsplash.com/photo-1439066615861-d1af74d74000?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"
+      },
+      {
+        title: "Тропический пляж",
+        description: "Белый песчаный пляж с бирюзовой водой и пальмами.",
+        details: "Райский уголок с белоснежным песком и кристально чистой водой. Пальмы, склоняющиеся над берегом, создают естественную тень. Идеальное место для отдыха, релаксации и наслаждения звуками океана.",
+        img: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"
+      },
+      {
+        title: "Лесная тропа",
+        description: "Привлекательная тропа, извивающаяся через пышный зеленый лес.",
+        details: "Эта тропинка манит исследователей и любителей пеших прогулок. Она ведет через густой лес, где можно встретить диких животных и редкие растения. Каждый поворот открывает новый вид, а свежий воздух наполняет энергией.",
+        img: "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"
+      },
+       
+      {
+        title: "Золотой закат",
+        description: "Захватывающий закат, окрашивающий небо в теплые тона.",
+        details: "Момент, когда солнце касается горизонта, создавая неповторимую игру цветов - от золотистого до пурпурного. Это зрелище завораживает и напоминает о красоте природных явлений. Идеальное время для размышлений и фотографирования.",
+        img: "https://avatars.mds.yandex.net/i?id=b5d0ac8dfa8a22aeeda6375338d85c9101d20c94-9855122-images-thumbs&ref=rim&n=33&w=400&h=250"
+      },
+      {
+        title: "Песчаные дюны",
+        description: "Волнистые песчаные дюны создают красивые узоры в пустыне.",
+        details: "Бескрайние просторы пустыни с идеально сформированными ветром дюнами. Песок переливается разными оттенками в зависимости от угла падения солнечных лучей. Это место кажется безжизненным, но на самом деле здесь обитают уникальные виды растений и животных.",
+        img: "https://cdn.fishki.net/upload/post/2018/11/15/2768650/tn/b2a033fe583b178409d30f238bcd430d.jpg"
+      },
+      {
+        title: "Северное сияние",
+        description: "Танцующее северное сияние освещает ночное небо яркими цветами.",
+        details: "Одно из самых удивительных природных явлений - полярное сияние. Зеленые, фиолетовые и розовые всполохи света танцуют в ночном небе, создавая фантастическое зрелище. Это результат взаимодействия солнечного ветра с магнитным полем Земли.",
+        img: "https://travelbird-images.imgix.net/ca/d1/cad127b0270d11cab02453f18f354042?auto=compress%2Cformat&amp;crop=faces%2Cedges%2Ccenter&amp;fit=crop&amp;h=720&amp;upscale=true&amp;w=1080"
+      },
+      {
+        title: "Водопад",
+        description: "Мощный водопад обрушивает свои потоки с высоты, создавая облако прохладного тумана и ощущение величия природы.",
+        details: "Мощный водопад с грохотом низвергается с отвесной скалы, рассыпаясь на миллионы сверкающих капель, которые под солнечными лучами превращаются в радугу и наполняют воздух свежестью и звуками живой природы.",
+        img: "https://avatars.mds.yandex.net/i?id=cc9e7c973c5d53b65429983eeaa77b3b_l-4577377-images-thumbs&n=13"
+      }
+    ];
+    
+    // Функция открытия полноэкранного просмотра
+    function openFullscreen(index) {
+      const fullscreenView = document.getElementById('fullscreenView');
+      const fullscreenImg = document.getElementById('fullscreenImg');
+      const fullscreenTitle = document.getElementById('fullscreenTitle');
+      const fullscreenDescription = document.getElementById('fullscreenDescription');
+      const fullscreenDetails = document.getElementById('fullscreenDetails');
+      
+      fullscreenImg.src = imageData[index].img;
+      fullscreenTitle.textContent = imageData[index].title;
+      fullscreenDescription.textContent = imageData[index].description;
+      fullscreenDetails.textContent = imageData[index].details;
+      
+      fullscreenView.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+    
+    // Функция закрытия полноэкранного просмотра
+    function closeFullscreen() {
+      const fullscreenView = document.getElementById('fullscreenView');
+      fullscreenView.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+    
+    // Закрытие по клику вне контента
+    document.getElementById('fullscreenView').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeFullscreen();
+      }
+    });
+    
+    // Закрытие по клавише Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeFullscreen();
+      }
+    });
+  </script>
+</body>
+</html>
