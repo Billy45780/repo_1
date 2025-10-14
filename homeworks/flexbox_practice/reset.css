@@ -1,0 +1,58 @@
+/* Modern CSS Reset */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    text-rendering: optimizeSpeed;
+    background-color: #f8f9fa;
+}
+
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+}
+
+input, button, textarea, select {
+    font: inherit;
+}
+
+/* Убираем стандартные стили списков */
+ul, ol {
+    list-style: none;
+}
+
+/* Убираем подчеркивание у ссылок */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Упрощаем работу с медиа */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Убираем аутлайны у кнопок */
+button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+/* Сброс стилей для полей ввода */
+input, textarea {
+    border: none;
+    outline: none;
+}

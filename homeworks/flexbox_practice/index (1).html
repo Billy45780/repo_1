@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Практическая работа №4: Flexbox - Нажмитдинова Шахзода</title>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Шапка с навигацией -->
+    <header class="header">
+        <div class="container">
+            <nav class="main-nav">
+                <div class="logo">FlexSite</div>
+                <ul class="nav-list">
+                    <li><a href="#home" class="nav-link active">Главная</a></li>
+                    <li><a href="#services" class="nav-link">Услуги</a></li>
+                    <li><a href="#gallery" class="nav-link">Галерея</a></li>
+                    <li><a href="#about" class="nav-link">О проекте</a></li>
+                    <li><a href="#contact" class="nav-link">Контакты</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <!-- Герой-секция -->
+        <section id="home" class="hero">
+            <div class="container">
+                <h1 class="hero-title">Практика Flexbox</h1>
+                <p class="hero-subtitle">Создаем современные адаптивные макеты</p>
+                <button class="hero-btn" onclick="showAlert('Добро пожаловать!')">Начать изучение</button>
+            </div>
+        </section>
+
+        <!-- Карточки услуг -->
+        <section id="services" class="services">
+            <div class="container">
+                <h2 class="section-title">Наши услуги</h2>
+                <div class="cards-container">
+                    <div class="card">
+                        <div class="card-icon">🎨</div>
+                        <h3 class="card-title">Веб-дизайн</h3>
+                        <p class="card-text">Создаем современные и удобные интерфейсы для ваших проектов</p>
+                        <button class="card-btn" onclick="showService('Веб-дизайн')">Выбрать услугу</button>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">⚡</div>
+                        <h3 class="card-title">Разработка</h3>
+                        <p class="card-text">Быстрая и качественная фронтенд разработка на современном стеке</p>
+                        <button class="card-btn" onclick="showService('Разработка')">Выбрать услугу</button>
+                    </div>
+                    <div class="card card-featured">
+                        <div class="card-icon">📱</div>
+                        <h3 class="card-title">Адаптивность</h3>
+                        <p class="card-text">Превосходное отображение на всех устройствах и браузерах</p>
+                        <button class="card-btn" onclick="showService('Адаптивность')">Выбрать услугу</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Галерея изображений -->
+        <section id="gallery" class="gallery">
+            <div class="container">
+                <h2 class="section-title">Галерея работ</h2>
+                <div class="gallery-container">
+                    <div class="gallery-item">
+                        <img src="https://i.pinimg.com/736x/ff/1b/bf/ff1bbffc7465d6799b47f1686a424d86.jpg" alt="Проект 1" class="gallery-img">
+                        <div class="gallery-overlay">
+                           
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://i.pinimg.com/originals/f9/fd/52/f9fd52b8c40b28848cf35a372db684d9.jpg" alt="Проект 2" class="gallery-img">
+                        <div class="gallery-overlay">
+                            
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="https://i.pinimg.com/originals/49/9e/50/499e5009b3460a0fa0bc0bf0db015f26.jpg" alt="Проект 3" class="gallery-img">
+                        <div class="gallery-overlay">
+                     
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Основной макет с сайдбаром -->
+        <section class="content-section">
+            <div class="container">
+                <div class="main-layout">
+                    <aside class="sidebar">
+                        <h3>Боковая панель</h3>
+                        <nav class="sidebar-nav">
+                            <a href="#flex-guide" class="sidebar-link" onclick="showGuide('Flexbox')">Flexbox Guide</a>
+                            <a href="#css-grid" class="sidebar-link" onclick="showGuide('CSS Grid')">CSS Grid</a>
+                            <a href="#responsive" class="sidebar-link" onclick="showGuide('Адаптивность')">Адаптивный дизайн</a>
+                            <a href="#examples" class="sidebar-link" onclick="showGuide('Примеры')">Практические примеры</a>
+                        </nav>
+                        <div class="sidebar-widget">
+                            <h4>Быстрые действия</h4>
+                            <button class="widget-btn" onclick="changeTheme()">Сменить тему</button>
+                            <button class="widget-btn" onclick="resetLayout()">Сбросить макет</button>
+                        </div>
+                    </aside>
+                  <article class="content">
+
+    <!-- Простая демонстрация -->
+    <div class="simple-demo">
+        <h3>Поиграй с Flexbox</h3>
+        <div class="demo-controls">
+            <button onclick="changeDirection('row')">→ Строка</button>
+            <button onclick="changeDirection('column')">↓ Колонка</button>
+            <button onclick="changeJustify('center')">⨀ Центр</button>
+        </div>
+        
+        <div class="demo-container" id="demoBox">
+            <div class="demo-item">1</div>
+            <div class="demo-item">2</div>
+            <div class="demo-item">3</div>
+        </div>
+    </div>
+</article>
+            </div>
+        </div>
+    </div>
+    </div>
+</article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Центрирование с изображением -->
+        <section class="centering-section">
+            <div class="container">
+                <h2 class="section-title">Центрирование элементов</h2>
+                <div class="centering-container">
+                    <div class="centered-content">
+                        <img src="https://cdn1.flamp.ru/349aea4be1974cba6bde6522814c8dcf.jpeg" alt="Flexbox Icon" class="centered-img">
+                        <div class="centered-text">
+                            <h3>Я идеально по центру!</h3>
+                            <p>И по горизонтали, и по вертикали</p>
+                            <button class="centered-btn" onclick="rotateImage()">Повернуть изображение</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Эксперименты с порядком -->
+        <section class="order-section">
+            <div class="container">
+                <h2 class="section-title">Управление порядком элементов</h2>
+                <div class="order-controls">
+                    <button onclick="resetOrder()">Сбросить порядок</button>
+                    <button onclick="randomizeOrder()">Случайный порядок</button>
+                    <button onclick="reverseOrder()">Обратный порядок</button>
+                </div>
+                <div class="order-container">
+                    <div class="box box1">Первый в HTML</div>
+                    <div class="box box2">Второй в HTML</div>
+                    <div class="box box3">Третий в HTML</div>
+                </div>
+            </div>
+        </section>
+
+   <!-- О проекте -->
+<section id="about" class="about">
+    <div class="container">
+        <h2 class="section-title">О проекте</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p>Этот проект был создан для практического освоения технологии CSS Flexbox. Все элементы интерактивны и демонстрируют различные возможности Flexbox.</p>
+                <p>В проекте использованы современные подходы к верстке, включая CSS переменные, адаптивный дизайн и интерактивные элементы.</p>
+                <button class="about-btn" onclick="showStats()">Показать статистику</button>
+            </div>
+            <div class="about-image">
+                <div class="about-image-card">
+                    <img src="https://i.pinimg.com/736x/55/43/0a/55430a8e7f2193fc6b77a30f7f8ce0f6.jpg" alt="О проекте">
+                    <div class="about-image-caption">Flexbox в действии</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Футер -->
+    <footer id="contact" class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Контакты</h3>
+                    <p>Email: practica1@gmail.com</p>
+                    <p>Телефон: +7 (915) 123-45-67</p>
+                    <button class="contact-btn" onclick="contactUs()">Написать нам</button>
+                </div>
+                <div class="footer-column">
+                    <h3>Технологии</h3>
+                    <p>HTML5, CSS3, Flexbox </p>
+                    <button class="tech-btn" onclick="showTechnologies()">Подробнее о технологиях</button>
+                </div>
+                <div class="footer-column">
+                    <h3>Быстрые ссылки</h3>
+                    <button class="footer-link" onclick="scrollToTop()">В начало страницы</button>
+                    <button class="footer-link" onclick="refreshPage()">Обновить страницу</button>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Практическая работа №4. Студент: Нажмитдинова Шахзода. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
