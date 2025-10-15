@@ -1,6 +1,4 @@
-// ==========================
 // Задание 1: ФУНКЦИЯ-СЧЁТЧИК
-// ==========================
 function createCounter() {
   let count = 0; // приватная переменная
 
@@ -29,9 +27,8 @@ console.log(counter.decrement());  // 1
 console.log("-------------------");
 
 
-// ==========================
+
 // Задание 2: ФУНКЦИЯ-МЕМоИЗАТОР
-// ==========================
 function memoize(fn) {
   let cache = {};
 
@@ -61,9 +58,8 @@ console.log(memoizedCalculation(10)); // 20 (из кэша)
 console.log("-------------------");
 
 
-// ==========================
+
 // Задание 3: ФУНКЦИЯ-КАРРИРОВЩИК
-// ==========================
 function curry(fn) {
   return function curried(...args) {
     if (args.length >= fn.length) {
